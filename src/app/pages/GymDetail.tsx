@@ -1,8 +1,25 @@
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Star, MapPin, Wifi, Car, Zap, CheckCircle, Shield } from 'lucide-react'
+import { ArrowLeft, Star, MapPin, Car, Zap, Shield } from 'lucide-react'
+import { MapContainer, TileLayer, Marker, ZoomControl } from 'react-leaflet'
+import L from 'leaflet'
+import 'leaflet/dist/leaflet.css'
 import { MOCK_GYMS, MOCK_SLOTS } from '../../data/mockData'
 import { SlotCard } from '../../components/SlotCard'
-import { format } from 'date-fns'
+
+// Fix Leaflet default icon for Vite
+delete (L.Icon.Default.prototype as any)._getIconUrl
+L.Icon.Default.mergeOptions({
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+})
+
+const gymPinIcon = L.divIcon({
+  html: `<div style="width:36px;height:36px;border-radius:50%;background:#CAFF00;border:3px solid #000;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px;color:#000;box-shadow:0 4px 12px rgba(0,0,0,0.6);">★</div>`,
+  className: '',
+  iconSize: [36, 36],
+  iconAnchor: [18, 18],
+})
 
 const AMENITY_ICONS: Record<string, string> = {
   Showers: '🚿',
@@ -145,13 +162,41 @@ export function GymDetail() {
           )}
         </div>
 
-        {/* Address */}
-        <div className="p-4 rounded-2xl bg-[#111] border border-[#1E1E1E]">
-          <div className="flex items-start gap-3">
+        {/* Location mini-map */}
+        <div>
+          <h2 className="text-white font-bold text-sm mb-3">Location</h2>
+          <div className="rounded-2xl overflow-hidden border border-[#1E1E1E]" style={{ height: 180 }}>
+            <MapContainer
+              center={[gym.lat, gym.lng]}
+              zoom={15}
+              style={{ height: '100%', width: '100%', background: '#0A0A0A' }}
+              zoomControl={false}
+              attributionControl={false}
+              dragging={false}
+              scrollWheelZoom={false}
+              doubleClickZoom={false}
+            >
+              <TileLayer
+                url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                subdomains="abcd"
+                maxZoom={19}
+              />
+              <ZoomControl position="bottomright" />
+              <Marker position={[gym.lat, gym.lng]} icon={gymPinIcon} />
+            </MapContainer>
+          </div>
+          <div className="flex items-start gap-3 mt-3 px-1">
             <MapPin className="w-4 h-4 text-[#CAFF00] mt-0.5 shrink-0" />
             <div>
               <p className="text-white text-sm font-medium">{gym.address}</p>
-              <button className="text-[#CAFF00] text-xs mt-1">Open in Maps →</button>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${gym.lat},${gym.lng}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#CAFF00] text-xs mt-1 inline-block"
+              >
+                Open in Google Maps →
+              </a>
             </div>
           </div>
         </div>

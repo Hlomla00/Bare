@@ -40,3 +40,20 @@
     padding-top: env(safe-area-inset-top, 0);
   }
 }
+
+/* Leaflet live-gym marker pulse ring */
+@keyframes mapPing {
+  0%   { transform: scale(0.8); opacity: 0.8; }
+  80%  { transform: scale(2.2); opacity: 0; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* Bottom-sheet / toast slide-up */
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.28s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
