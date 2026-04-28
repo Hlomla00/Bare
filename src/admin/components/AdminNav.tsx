@@ -1,18 +1,18 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, CalendarDays, BookOpen, QrCode, DollarSign, TrendingUp, Edit3, Settings } from 'lucide-react'
+import { LayoutDashboard, Users, Building2, Calendar, DollarSign, Zap, HeadphonesIcon, Settings } from 'lucide-react'
 
 const tabs = [
-  { to: '/partner', icon: LayoutDashboard, label: 'Home', end: true },
-  { to: '/partner/schedule', icon: CalendarDays, label: 'Schedule', end: false },
-  { to: '/partner/bookings', icon: BookOpen, label: 'Bookings', end: false },
-  { to: '/partner/scanner', icon: QrCode, label: 'Scanner', end: false },
-  { to: '/partner/earnings', icon: DollarSign, label: 'Earnings', end: false },
-  { to: '/partner/analytics', icon: TrendingUp, label: 'Analytics', end: false },
-  { to: '/partner/gym-editor', icon: Edit3, label: 'Profile', end: false },
-  { to: '/partner/settings', icon: Settings, label: 'Settings', end: false },
+  { to: '/admin', icon: LayoutDashboard, label: 'Overview', end: true },
+  { to: '/admin/users', icon: Users, label: 'Users' },
+  { to: '/admin/gyms', icon: Building2, label: 'Gyms' },
+  { to: '/admin/bookings', icon: Calendar, label: 'Bookings' },
+  { to: '/admin/revenue', icon: DollarSign, label: 'Revenue' },
+  { to: '/admin/flash', icon: Zap, label: 'Flash' },
+  { to: '/admin/support', icon: HeadphonesIcon, label: 'Support' },
+  { to: '/admin/settings', icon: Settings, label: 'Settings' },
 ]
 
-export function PartnerNav() {
+export function AdminNav() {
   return (
     <nav className="fixed bottom-0 inset-x-0 z-50 bg-[#0A0A0A]/95 backdrop-blur-xl border-t border-[#1E1E1E] pb-safe overflow-x-auto">
       <div className="flex items-center h-16 min-w-max mx-auto px-2">

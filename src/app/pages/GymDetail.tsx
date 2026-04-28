@@ -108,6 +108,19 @@ export function GymDetail() {
           ))}
         </div>
 
+        {/* Reviews shortcut */}
+        <button
+          onClick={() => navigate(`/app/gym/${gym.id}/reviews`)}
+          className="w-full flex items-center justify-between p-4 rounded-2xl bg-[#111] border border-[#1E1E1E]"
+        >
+          <div className="flex items-center gap-2">
+            <Star className="w-4 h-4 text-[#CAFF00]" fill="#CAFF00" />
+            <span className="text-white font-semibold text-sm">{gym.bare_score} Bare Score</span>
+            <span className="text-[#555] text-sm">· See all reviews</span>
+          </div>
+          <span className="text-[#CAFF00] text-sm">→</span>
+        </button>
+
         {/* Description */}
         <p className="text-[#888] text-sm leading-relaxed">{gym.description}</p>
 

@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom'
-import { Compass, Calendar, Users, User, Home } from 'lucide-react'
+import { Home, Calendar, Users, Wallet, User } from 'lucide-react'
 
 const tabs = [
   { to: '/app', icon: Home, label: 'Discover', end: true },
   { to: '/app/bookings', icon: Calendar, label: 'Bookings', end: false },
   { to: '/app/friends', icon: Users, label: 'Squad', end: false },
+  { to: '/app/wallet', icon: Wallet, label: 'Wallet', end: false },
   { to: '/app/profile', icon: User, label: 'Profile', end: false },
 ]
 

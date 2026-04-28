@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, CreditCard, Bell, Shield, HelpCircle, LogOut, Zap, Star } from 'lucide-react'
+import { ChevronRight, CreditCard, Bell, Shield, HelpCircle, LogOut, Zap, Star, Wallet, Settings, Edit, UserPlus, Clock } from 'lucide-react'
 import { useAuth } from '../../hooks/useAuth'
 import { SUBSCRIPTION_PLANS } from '../../types'
 
@@ -13,30 +13,14 @@ export function Profile() {
   const creditsPct = creditsTotal > 0 ? (creditsUsed / creditsTotal) * 100 : 0
 
   const menuItems = [
-    {
-      label: 'Subscription & Credits',
-      icon: CreditCard,
-      action: () => navigate('/app/subscriptions'),
-      badge: plan ? `${user?.credits_remaining} left` : 'Pay-per-use',
-    },
-    {
-      label: 'Notifications',
-      icon: Bell,
-      action: () => navigate('/app/notifications'),
-      badge: null,
-    },
-    {
-      label: 'Privacy & Sharing',
-      icon: Shield,
-      action: () => {},
-      badge: null,
-    },
-    {
-      label: 'Help & Support',
-      icon: HelpCircle,
-      action: () => {},
-      badge: null,
-    },
+    { label: 'Edit Profile', icon: Edit, action: () => navigate('/app/profile/edit'), badge: null },
+    { label: 'Wallet & Credits', icon: Wallet, action: () => navigate('/app/wallet'), badge: plan ? `${user?.credits_remaining} credits` : null },
+    { label: 'Subscription', icon: CreditCard, action: () => navigate('/app/subscriptions'), badge: plan ? `${(plan as any).name ?? user?.subscription_tier} Plan` : 'Pay-per-use' },
+    { label: 'Waitlist', icon: Clock, action: () => navigate('/app/waitlist'), badge: null },
+    { label: 'Find Friends', icon: UserPlus, action: () => navigate('/app/friends/search'), badge: null },
+    { label: 'Notifications', icon: Bell, action: () => navigate('/app/notifications'), badge: null },
+    { label: 'Settings', icon: Settings, action: () => navigate('/app/settings'), badge: null },
+    { label: 'Help & Support', icon: HelpCircle, action: () => {}, badge: null },
   ]
 
   return (

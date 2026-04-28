@@ -1,4 +1,4 @@
-import type { Gym, Slot, Booking, Friend, Notification, ActiveSession } from '../types'
+import type { Gym, Slot, Booking, Friend, Notification, ActiveSession, Review, Transaction, WaitlistEntry, SupportTicket, GymApplication } from '../types'
 import { addHours, addMinutes, subHours, subMinutes, format } from 'date-fns'
 
 const now = new Date()
@@ -512,6 +512,60 @@ export const PARTNER_STATS = {
   weekRevenue: 24600,
   monthRevenue: 89400,
   pendingPayout: 18240,
+}
+
+export const MOCK_REVIEWS: Review[] = [
+  { id: 'rev-1', user_id: 'user-1', user_name: 'Jordan C.', gym_id: 'gym-1', booking_id: 'booking-3', rating: 5, body: 'Best HIIT class I\'ve ever done. The coach pushes you just enough. Will definitely be back.', created_at: subHours(now, 48).toISOString() },
+  { id: 'rev-2', user_id: 'user-2', user_name: 'Sarah M.', gym_id: 'gym-1', booking_id: 'b-x1', rating: 5, body: 'Velocity never disappoints. Equipment is top tier and the vibe is unmatched in Cape Town.', created_at: subHours(now, 72).toISOString() },
+  { id: 'rev-3', user_id: 'user-3', user_name: 'James K.', gym_id: 'gym-2', booking_id: 'b-x2', rating: 5, body: 'Finally a proper strength gym. Olympic platforms, great bar selection, and zero nonsense.', created_at: subHours(now, 24).toISOString() },
+  { id: 'rev-4', user_id: 'user-4', user_name: 'Aisha P.', gym_id: 'gym-3', booking_id: 'b-x3', rating: 5, body: 'Zen Flow is a sanctuary. The hot yoga session was transformative. I left feeling brand new.', created_at: subHours(now, 36).toISOString() },
+  { id: 'rev-5', user_id: 'user-5', user_name: 'Theo M.', gym_id: 'gym-3', booking_id: 'b-x4', rating: 4, body: 'Great studio, slightly cramped on busy days. Book early for the best experience.', created_at: subHours(now, 60).toISOString() },
+  { id: 'rev-6', user_id: 'user-6', user_name: 'Lena B.', gym_id: 'gym-5', booking_id: 'b-x5', rating: 5, body: 'Training with the Atlantic Ocean as a backdrop is something else. Surf & Sweat is a gem.', created_at: subHours(now, 20).toISOString() },
+  { id: 'rev-7', user_id: 'user-7', user_name: 'Kyle T.', gym_id: 'gym-6', booking_id: 'b-x6', rating: 5, body: 'The Grid community is everything. WOD scaled perfectly for my level. Coaches are outstanding.', created_at: subHours(now, 18).toISOString() },
+  { id: 'rev-8', user_id: 'user-8', user_name: 'Nomvula D.', gym_id: 'gym-7', booking_id: 'b-x7', rating: 5, body: 'Forma Pilates changed my life. Small class sizes mean personal attention. Worth every cent.', created_at: subHours(now, 12).toISOString() },
+  { id: 'rev-9', user_id: 'user-9', user_name: 'Ruan V.', gym_id: 'gym-4', booking_id: 'b-x8', rating: 4, body: 'Iron Republic is the real deal. Old school but the equipment is solid. Parking is tricky though.', created_at: subHours(now, 30).toISOString() },
+  { id: 'rev-10', user_id: 'user-10', user_name: 'Chloe N.', gym_id: 'gym-8', booking_id: 'b-x9', rating: 4, body: 'Revive has everything. The pool recovery session after a hard week is absolute heaven.', created_at: subHours(now, 96).toISOString() },
+]
+
+export const MOCK_TRANSACTIONS: Transaction[] = [
+  { id: 'txn-1', user_id: 'user-1', type: 'subscription', amount: 799, description: 'Active Plan — monthly subscription', created_at: subHours(now, 720).toISOString() },
+  { id: 'txn-2', user_id: 'user-1', type: 'booking_debit', amount: 150, credits: 1, description: 'Morning HIIT Blast — Velocity Gym', created_at: subHours(now, 2).toISOString() },
+  { id: 'txn-3', user_id: 'user-1', type: 'booking_debit', amount: 220, credits: 1, description: 'Flow & Restore — Zen Flow Studio', created_at: subHours(now, 1).toISOString() },
+  { id: 'txn-4', user_id: 'user-1', type: 'booking_debit', amount: 180, credits: 1, description: 'Open Lifting Session — Atlas Strength', created_at: subHours(now, 50).toISOString() },
+  { id: 'txn-5', user_id: 'user-1', type: 'credit_purchase', amount: 200, credits: 2, description: 'Top-up — 2 extra credits', created_at: subHours(now, 100).toISOString() },
+  { id: 'txn-6', user_id: 'user-1', type: 'refund', amount: 150, description: 'Refund — cancelled slot (Velocity Gym)', created_at: subHours(now, 200).toISOString() },
+]
+
+export const MOCK_WAITLIST: WaitlistEntry[] = [
+  { id: 'wait-1', user_id: 'user-1', slot_id: 'slot-5', slot: MOCK_SLOTS[5], position: 2, created_at: subHours(now, 1).toISOString() },
+]
+
+export const MOCK_SUPPORT_TICKETS: SupportTicket[] = [
+  { id: 'tkt-1', user_id: 'user-3', user_name: 'James K.', subject: 'Charged but not checked in', body: 'I was charged for a session at Atlas on Monday but the gym says I was never checked in. Please refund.', status: 'open', type: 'booking_issue', created_at: subHours(now, 5).toISOString() },
+  { id: 'tkt-2', user_id: 'user-5', user_name: 'Theo M.', subject: 'Payment failed but credit deducted', body: 'My PayFast payment failed but I lost a credit. Please investigate.', status: 'in_progress', type: 'payment', created_at: subHours(now, 12).toISOString() },
+  { id: 'tkt-3', user_id: 'user-6', user_name: 'Lena B.', subject: 'Gym was dirty and equipment broken', body: 'The equipment at Iron Republic was not maintained. Two machines were broken and the showers weren\'t clean.', status: 'resolved', type: 'gym_quality', created_at: subHours(now, 48).toISOString() },
+]
+
+export const MOCK_GYM_APPLICATIONS: GymApplication[] = [
+  { id: 'app-1', owner_name: 'David Stander', gym_name: 'SteelWorks Gym', suburb: 'Observatory', email: 'david@steelworks.co.za', phone: '+27 83 445 6789', status: 'pending', submitted_at: subHours(now, 6).toISOString() },
+  { id: 'app-2', owner_name: 'Taryn Petersen', gym_name: 'Sweat & Soul Studio', suburb: 'Newlands', email: 'taryn@sweatandsoul.co.za', phone: '+27 72 334 5566', status: 'pending', submitted_at: subHours(now, 18).toISOString() },
+  { id: 'app-3', owner_name: 'Brendan Ellis', gym_name: 'Peak Performance', suburb: 'Bellville', email: 'brendan@peakperformance.co.za', phone: '+27 61 223 4455', status: 'approved', submitted_at: subHours(now, 72).toISOString() },
+  { id: 'app-4', owner_name: 'Yolanda Khumalo', gym_name: 'Ubuntu Active', suburb: 'Mitchells Plain', email: 'yolanda@ubuntuactive.co.za', phone: '+27 74 556 7788', status: 'rejected', submitted_at: subHours(now, 120).toISOString() },
+]
+
+export const ADMIN_PLATFORM_STATS = {
+  totalUsers: 4821,
+  totalGyms: 48,
+  totalBookingsToday: 312,
+  totalBookingsMonth: 8940,
+  revenueToday: 52800,
+  revenueMonth: 1_420_000,
+  commissionMonth: 284_000,
+  activeSessionsNow: 124,
+  avgBookingValue: 178,
+  churnRate: 3.2,
+  newUsersToday: 34,
+  newUsersMonth: 487,
 }
 
 export const PARTNER_SLOTS: Slot[] = [

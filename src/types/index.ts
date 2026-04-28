@@ -106,11 +106,60 @@ export interface ActiveSession {
 export interface Review {
   id: string
   user_id: string
+  user_name: string
   gym_id: string
   booking_id: string
   rating: number
   body: string
   created_at: string
+}
+
+export interface Transaction {
+  id: string
+  user_id: string
+  type: 'credit_purchase' | 'booking_debit' | 'refund' | 'subscription'
+  amount: number
+  credits?: number
+  description: string
+  created_at: string
+}
+
+export interface WaitlistEntry {
+  id: string
+  user_id: string
+  slot_id: string
+  slot?: Slot
+  position: number
+  created_at: string
+}
+
+export interface SupportTicket {
+  id: string
+  user_id: string
+  user_name: string
+  subject: string
+  body: string
+  status: 'open' | 'in_progress' | 'resolved'
+  type: 'booking_issue' | 'payment' | 'gym_quality' | 'other'
+  created_at: string
+}
+
+export interface AdminUser {
+  id: string
+  name: string
+  email: string
+  role: 'super_admin' | 'support' | 'finance'
+}
+
+export interface GymApplication {
+  id: string
+  owner_name: string
+  gym_name: string
+  suburb: string
+  email: string
+  phone: string
+  status: 'pending' | 'approved' | 'rejected'
+  submitted_at: string
 }
 
 export interface GymEarning {
