@@ -1,8 +1,8 @@
-import { TrendingUp, Users, Zap, Clock, ChevronRight, ArrowUpRight } from 'lucide-react'
+import { TrendingUp, Users, Zap, Clock, ChevronRight, ArrowUpRight, LogOut } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { format } from 'date-fns'
 import { PARTNER_STATS, PARTNER_GYM, PARTNER_SLOTS, MOCK_BOOKINGS } from '../../data/mockData'
-import { useAuth } from '../../hooks/useAuth'
+import { useAuthContext } from '../../context/AuthContext'
 
 function StatCard({
   label,
@@ -49,8 +49,10 @@ function LiveBookingRow({ name, slotTitle, time }: { name: string; slotTitle: st
 
 export function Dashboard() {
   const navigate = useNavigate()
-  const { user } = useAuth('partner')
+  const { user, logout } = useAuthContext()
   const upcomingSlot = PARTNER_SLOTS.find((s) => s.status === 'open')
+
+  const handleLogout = () => { logout(); navigate('/auth/login', { replace: true }) }
 
   return (
     <div className="pb-24 min-h-screen">
@@ -69,9 +71,13 @@ export function Dashboard() {
               </span>
               <span className="text-[#00FF6A] text-xs font-bold">Live</span>
             </div>
-            <div className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#242424] flex items-center justify-center text-sm font-bold text-[#888]">
-              {user?.name?.charAt(0)}
-            </div>
+            <button
+              onClick={handleLogout}
+              className="w-9 h-9 rounded-full bg-[#1A1A1A] border border-[#242424] flex items-center justify-center"
+              title="Sign out"
+            >
+              <LogOut className="w-4 h-4 text-[#FF3547]" />
+            </button>
           </div>
         </div>
         <div className="mt-1">

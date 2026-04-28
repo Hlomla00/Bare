@@ -3,7 +3,7 @@ import { PARTNER_GYM } from '../../data/mockData'
 import { useAuth } from '../../hooks/useAuth'
 
 export function PartnerSettings() {
-  const { user } = useAuth('partner')
+  const { user } = useAuth()
 
   const sections = [
     {

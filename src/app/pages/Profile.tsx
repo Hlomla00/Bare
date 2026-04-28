@@ -1,11 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight, CreditCard, Bell, Shield, HelpCircle, LogOut, Zap, Star, Wallet, Settings, Edit, UserPlus, Clock } from 'lucide-react'
-import { useAuth } from '../../hooks/useAuth'
+import { useAuthContext } from '../../context/AuthContext'
 import { SUBSCRIPTION_PLANS } from '../../types'
 
 export function Profile() {
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, logout } = useAuthContext()
+
+  const handleLogout = () => {
+    logout()
+    navigate('/auth/login', { replace: true })
+  }
 
   const plan = user?.subscription_tier !== 'none' ? SUBSCRIPTION_PLANS[user!.subscription_tier as keyof typeof SUBSCRIPTION_PLANS] : null
   const creditsUsed = plan ? plan.visits - (user?.credits_remaining ?? 0) : 0
@@ -133,7 +138,7 @@ export function Profile() {
           ))}
         </div>
 
-        <button className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl bg-[#111] border border-[#1E1E1E] active:bg-[#1A1A1A] transition-colors">
+        <button onClick={handleLogout} className="w-full flex items-center gap-4 px-4 py-4 rounded-2xl bg-[#111] border border-[#1E1E1E] active:bg-[#1A1A1A] transition-colors">
           <div className="w-9 h-9 rounded-xl bg-[#FF3547]/10 flex items-center justify-center">
             <LogOut className="w-4 h-4 text-[#FF3547]" />
           </div>

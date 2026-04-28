@@ -1,4 +1,6 @@
-import { Users, Building2, TrendingUp, Zap, ArrowUp, Activity, DollarSign, Calendar } from 'lucide-react'
+import { Users, Building2, TrendingUp, Zap, ArrowUp, Activity, DollarSign, Calendar, LogOut } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../../context/AuthContext'
 import { ADMIN_PLATFORM_STATS } from '../../data/mockData'
 
 const RECENT_ACTIVITY = [
@@ -14,6 +16,9 @@ const WEEKLY_REV = [88, 102, 96, 118, 135, 142, 124]
 const maxRev = Math.max(...WEEKLY_REV)
 
 export function AdminOverview() {
+  const navigate = useNavigate()
+  const { logout } = useAuthContext()
+  const handleLogout = () => { logout(); navigate('/auth/login', { replace: true }) }
   const s = ADMIN_PLATFORM_STATS
 
   return (
@@ -28,12 +33,17 @@ export function AdminOverview() {
             </div>
             <p className="text-[#555] text-xs">Platform Command Centre</p>
           </div>
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#00FF6A]/10 border border-[#00FF6A]/20">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF6A] opacity-75" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00FF6A]" />
-            </span>
-            <span className="text-[#00FF6A] text-xs font-bold">LIVE</span>
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-[#00FF6A]/10 border border-[#00FF6A]/20">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00FF6A] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00FF6A]" />
+              </span>
+              <span className="text-[#00FF6A] text-xs font-bold">LIVE</span>
+            </div>
+            <button onClick={handleLogout} className="p-2 rounded-full bg-[#1A1A1A] border border-[#242424]" title="Sign out">
+              <LogOut className="w-4 h-4 text-[#FF3547]" />
+            </button>
           </div>
         </div>
       </div>

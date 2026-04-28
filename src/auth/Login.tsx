@@ -1,13 +1,16 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Eye, EyeOff, Zap, ArrowRight } from 'lucide-react'
+import { useAuthContext } from '../context/AuthContext'
+import type { AuthRole } from '../context/AuthContext'
 
 export function Login() {
   const navigate = useNavigate()
+  const { login } = useAuthContext()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
-  const [role, setRole] = useState<'member' | 'partner' | 'admin'>('member')
+  const [role, setRole] = useState<AuthRole>('member')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -17,6 +20,7 @@ export function Login() {
     if (!email || !password) { setError('Please fill in all fields.'); return }
     setLoading(true)
     await new Promise(r => setTimeout(r, 1000))
+    login(role)                          // ← sets global auth state + localStorage
     setLoading(false)
     if (role === 'partner') navigate('/partner')
     else if (role === 'admin') navigate('/admin')
@@ -99,7 +103,15 @@ export function Login() {
             {(['member', 'partner', 'admin'] as const).map(r => (
               <button
                 key={r}
-                onClick={() => { setRole(r); setEmail('demo@bare.co.za'); setPassword('demo1234') }}
+                onClick={async () => {
+                  setLoading(true)
+                  await new Promise(res => setTimeout(res, 600))
+                  login(r)
+                  setLoading(false)
+                  if (r === 'partner') navigate('/partner')
+                  else if (r === 'admin') navigate('/admin')
+                  else navigate('/app')
+                }}
                 className="py-2 rounded-xl bg-[#1A1A1A] border border-[#242424] text-[#888] text-xs font-medium capitalize"
               >
                 {r === 'partner' ? 'Partner' : r}
